@@ -1,3 +1,4 @@
+#_*_ coding: utf8 _*_
 class No(object):
 	def __init__(self, id):
 		self.id = int(id)
@@ -16,8 +17,8 @@ def BFS(*grafo, No):
 	fila = []
 	fila.append(No)
 	while not fila:
-		u.atingido = True
 		u = fila.pop()
+		u.atingido = True
 		componente.append(u)
 		for v in u.vizinhos:
 			if not v.atingido:
@@ -44,7 +45,7 @@ def main():
 		v1, v2 = aux.split(" ")
 		v1 = int(v1)
 		v2 = int(v2)
-		grafo[v1].vizinhos.addVizinho(v2)
+		grafo[v1 - 1].vizinhos.addVizinho(v2)
 		aux = input("")
 
 	for No in grafo:
