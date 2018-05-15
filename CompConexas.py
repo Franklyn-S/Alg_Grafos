@@ -12,50 +12,43 @@ class No(object):
 	def __str__(self):
 		return str(self.id)
 
-def BFS(*grafo, No):
+def BFS(No):
 	componente = []
 	fila = []
 	fila.append(No)
 	while not fila:
 		u = fila.pop()
 		u.atingido = True
-		componente.append(u)
+		componente.append(u.id)
 		for v in u.vizinhos:
 			if not v.atingido:
 				fila.append(v)
 				v.atingido = True
 	return componente.sort(key = id)
 
-def main():
 
-	#input("")
-	#input("")
-	s = input("")
-	#input("")
 
-	n1, n = s.split("=")
-	n = int(n)
+#input("")
+#input("")
+num_vertices = int(input().split("=")[1])
+#input("")
 
-	grafo = []
-	for i in range(1,n+1):
-		grafo.append(No(i))
+grafo = []
+for i in range(1,num_vertices+1):
+	no = No(i)
+	grafo.append(no)
 
+aux = input()
+while aux != "":
+	v1, v2 = aux.split(" ")
+	v1 = No(int(v1))
+	v2 = No(int(v2))
+
+	grafo[v1.id].addVizinho(v2)
 	aux = input("")
-	while aux != "":
-		v1, v2 = aux.split(" ")
-		v1 = int(v1)
-		v2 = int(v2)
-		grafo[v1 - 1].vizinhos.addVizinho(v2)
-		aux = input("")
 
-	for No in grafo:
-		if not No.atingido:
-			s = ""
-			for i in BFS(*grafo, NO):
-				print(i, end = " ")
-			print("\n")
-
-
-if __name__ == "__main__":
-	main()
+for n in grafo:
+	if not n.atingido:
+		print(BFS(n))
+		print("\n")
 
