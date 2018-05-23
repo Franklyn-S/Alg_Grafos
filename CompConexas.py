@@ -1,70 +1,60 @@
 #_*_ coding: utf8 _*_
-# class No(object):
-# 	def __init__(self, id):
-# 		self.id = int(id)
-# 		self.vizinhos = []
-# 		self.atingido = False
+class No(object):
+	def __init__(self, id):
+		self.id = int(id)
+		self.vizinhos = []
+		self.atingido = False
 
-# 	def addVizinho(self, no):
-# 		self.vizinhos.append(no)
-# 		no.vizinhos.append(self)
+	def addVizinho(self, no):
+		if no not in self.vizinhos:
+			self.vizinhos.append(no)
+			no.vizinhos.append(self)
 
-# 	def __str__(self):
-# 		return str(self.id)
+	def __str__(self):
+		return str(self.id)
 
-# def BFS(*grafo, No):
-# 	componente = []
-# 	fila = []
-# 	fila.append(No)
-# 	while not fila:
-# 		u = fila.pop()
-# 		u.atingido = True
-# 		componente.append(u)
-# 		for v in u.vizinhos:
-# 			if not v.atingido:
-# 				fila.append(v)
-# 				v.atingido = True
-# 	return componente.sort(key = id)
-
-#def main():
+def BFS(*grafo,no):
+	componente = []
+	fila = []
+	fila.append(no)
+	while fila:
+		u = fila.pop(0)
+		componente.append(u)
+		for v in u.vizinhos:
+			if not v.atingido:
+				fila.append(v)
+				v.atingido = True
+		u.atingido = True
+	return sorted(componente, key=id)
 
 dl = input("")
-format = input("")
+formatt = input("")
+num_vertices = int(input().split("=")[1])
+data = input("")	
 
-num_vertice = int(input().split("=")[1])
 
-data = input()
-
-aux = input().split()
 
 grafo = []
-atingidos = []
-LA = []
-for x in xrange(1,num_vertice+1):
-	atingidos.append(False)
-	LA.append([])
+for i in range(1,num_vertices+1):
+	no = No(i)
+	grafo.append(no)
 
-int i = 0
-while aux != []:
-	v1 = int(aux[0])
-	v2 = int(aux[1])
-	aresta = [v1, v2]
-	grafo[i].append(aresta)
-	i++
+aux = input()
+while aux != "":
+	v1, v2 = aux.split(" ")
+	v1 = int(v1)
+	v2 = int(v2)
+
+	grafo[v1 - 1].addVizinho(grafo[v2 - 1])
 	try:
-		print(aux)
-		aux = input().split()
-	except EOFError:
+		aux = input("")
+	except Exception as e:
 		break
-
+	
+result = ""
 for n in grafo:
 	if not n.atingido:
-		s = ""
-		for i in BFS(*grafo, n):
-			print(i, end = " ")
-		print("\n")
-
-
-# if __name__ == "__main__":
-# main()
-
+		for j in BFS(*grafo,no=n):
+			result += str(j)+' '
+		result+="\n"
+print(result)
