@@ -7,11 +7,11 @@ using namespace std;
 
 class Aresta{
 	int v1, v2;
-	float peso;
+	double peso;
 
 public:
 
-		Aresta(int v1, int v2, float peso)
+		Aresta(int v1, int v2, double peso)
 		{
 			this->v1 = v1;
 			this->v2 = v2;
@@ -28,7 +28,7 @@ public:
 			return v2;
 		}
 
-		float obterPeso()
+		double obterPeso()
 		{
 			return peso;
 		}
@@ -51,7 +51,7 @@ public:
 		this->V = V;
 	}
 
-	void adicionarAresta(int v1, int v2, float peso)
+	void adicionarAresta(int v1, int v2, double peso)
 	{
 		Aresta aresta(v1, v2, peso);
 		arestas.push_back(aresta);
@@ -99,7 +99,7 @@ public:
 			}
 		}
 		int size_arvore = arvore.size();
-		float soma = 0.0;//iniciando resultado
+		double soma = 0.0;//iniciando resultado
 
 		for(int i = 0; i < size_arvore; i++)
 		{	
