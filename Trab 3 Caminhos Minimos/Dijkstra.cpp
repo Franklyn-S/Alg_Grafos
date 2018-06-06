@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include <iostream>
 #include <vector>
+#include <limits>
 
 using namespace std;
 
@@ -41,11 +45,17 @@ class Grafo
 {
 	int V;//numero de vértices
 	vector<Aresta> arestas; //Vetor de arestas
+	vector<int> pai;//int *pai;
+	vector<int> distancia;//int *distancia;
 
 public:
 	Grafo(int V)
 	{
-		this.V = V;
+		this->V = V;
+		pai.resize(V); //pai = (int *)malloc(V * sizeof(int));
+		pai.assign(V,0);
+		distancia.resize(V); //distancia = (int *)malloc(V * sizeof(int));
+		distancia.assign(V,0);
 	}
 
 	void adicionarAresta(int v1, int v2, double peso)
@@ -55,7 +65,16 @@ public:
 	}
 
 	//Implementar as funções do Dijkstra aqui
-}
+	void dijkstra()
+	{
+		for(int i = 0; i < V; i++)
+		{
+			pai.at(i) = -1;
+			distancia.at(i)	 = std::numeric_limits<double>::max();	
+			cout << distancia.at(i) << endl;
+		}
+	}
+};
 
 
 
@@ -70,4 +89,15 @@ int main(int argc, char *argv[]){
 
 	while(getchar() != ':'){}
 	getchar();
+
+	//Recebe o grafo g
+	Grafo g(n);
+
+	//recebe a aresta (v1, v2) com peso p
+	while(scanf("%d %d %lf", &v1, &v2, &p) != EOF){
+		//armazena no grafo
+		g.adicionarAresta(v1-1, v2-1, p);
+	}
+
+	g.dijkstra();
 }
