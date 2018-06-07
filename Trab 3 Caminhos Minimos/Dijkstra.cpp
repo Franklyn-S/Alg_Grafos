@@ -5,29 +5,31 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
-class Aresta{
-	int v1, v2;
-	double peso;
+class Aresta
+{
+	int vertice1, vertice2, peso;
 
 public:
 
-	Aresta(int v1, int v2, double peso)
+	Aresta(int v1, int v2, int peso)
 	{
-		this->v1 = v1;
-		this->v2 = v2;
+		vertice1 = v1;
+		vertice2 = v2;
 		this->peso = peso;
 	}
+
 	int obterVertice1()
 	{
-		return v1;
+		return vertice1;
 	}
 
 	int obterVertice2()
 	{
-		return v2;
+		return vertice2;
 	}
 
 	int obterPeso()
@@ -35,6 +37,7 @@ public:
 		return peso;
 	}
 
+	// sobrescrita do operador "<"
 	bool operator < (const Aresta& aresta2) const
 	{
 		return (peso < aresta2.peso);
@@ -44,22 +47,22 @@ public:
 class Grafo
 {
 	int V;//numero de vértices
-	vector<Aresta> arestas; //Vetor de arestas
+	vector<Aresta> arestas; //vetor de arestas
+	list<int> *adj; // lista de adjacencia
+
 	vector<int> pai;//int *pai;
 	vector<int> distancia;//int *distancia;
+	vector<bool> atingido;
 
 public:
 	Grafo(int V)
 	{
 		this->V = V;
-		pai.resize(V); //pai = (int *)malloc(V * sizeof(int));
-		pai.assign(V,0);
-		distancia.resize(V); //distancia = (int *)malloc(V * sizeof(int));
-		distancia.assign(V,0);
 	}
 
 	void adicionarAresta(int v1, int v2, double peso)
-	{
+	{	
+		adj[v1].push_back(v2);
 		Aresta aresta(v1, v2, peso);
 		arestas.push_back(aresta);
 	}
@@ -69,10 +72,13 @@ public:
 	{
 		for(int i = 0; i < V; i++)
 		{
-			pai.at(i) = -1;
-			distancia.at(i)	 = std::numeric_limits<double>::max();	
-			cout << distancia.at(i) << endl;
+			pai.push_back(-1);
+			distancia.push_back(std::numeric_limits<double>::max());	
+			atingido.push_back(false);
 		}
+		distancia[0] = 0;
+
+
 	}
 };
 
