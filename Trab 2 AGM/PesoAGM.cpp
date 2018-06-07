@@ -109,7 +109,8 @@ public:
 			//cout << "(" << v1 << ", " << v2 << ") = " << arvore[i].obterPeso() << endl;
 			soma += arvore[i].obterPeso();
 		}
-		cout << soma << endl; //soma dos pesos da AGM
+		std::cout.precision(3);
+		std::cout << std::fixed << soma << endl; //soma dos pesos da AGM
 	}
 };
 
