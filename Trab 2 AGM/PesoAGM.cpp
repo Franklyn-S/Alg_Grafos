@@ -122,7 +122,7 @@ int main(int argc, char *argv[]){
 	int n; //quantidade de vertices
 
 	int v1, v2;
-	float p;
+	double p;
 
 	//isolando a quantidade de vertices n
 	while(!scanf("n=%d", &n)){getchar();}

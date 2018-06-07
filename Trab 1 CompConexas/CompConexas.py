@@ -17,8 +17,10 @@ def BFS(*grafo,no):
 	componente = []
 	fila = []
 	fila.append(no)
+	i = 0
 	while fila:
-		u = fila.pop(0)
+		u = fila[i]
+		i += 1
 		componente.append(u)
 		for v in u.vizinhos:
 			if not v.atingido:
