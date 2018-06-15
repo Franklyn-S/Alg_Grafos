@@ -9,17 +9,17 @@
 
 using namespace std;
 
-class Aresta
+class No
 {
-	int vertice1, vertice2, peso;
-
+	int vertice1, chave;
+	bool atingido;
 public:
 
-	Aresta(int v1, int v2, int peso)
+	No(int v1)
 	{
 		vertice1 = v1;
-		vertice2 = v2;
-		this->peso = peso;
+		chave = -1;//distancia
+		atingido = false;
 	}
 
 	int obterVertice1()
@@ -27,32 +27,25 @@ public:
 		return vertice1;
 	}
 
-	int obterVertice2()
+	int obterChave()
 	{
-		return vertice2;
-	}
-
-	int obterPeso()
-	{
-		return peso;
+		return chave;
 	}
 
 	// sobrescrita do operador "<"
-	bool operator < (const Aresta& aresta2) const
+	bool operator < (const No& no2) const
 	{
-		return (peso < aresta2.peso);
+		return (chave < No2.chave);
 	}
 };
+
+
 
 class Grafo
 {
 	int V;//numero de vértices
 	vector<Aresta> arestas; //vetor de arestas
-	list<int> *adj; // lista de adjacencia
 
-	vector<int> pai;//int *pai;
-	vector<int> distancia;//int *distancia;
-	vector<bool> atingido;
 
 public:
 	Grafo(int V)
@@ -70,13 +63,13 @@ public:
 	//Implementar as funções do Dijkstra aqui
 	void dijkstra()
 	{
+		distancia[0] = 0;
 		for(int i = 0; i < V; i++)
 		{
-			pai.push_back(-1);
 			distancia.push_back(std::numeric_limits<double>::max());	
 			atingido.push_back(false);
 		}
-		distancia[0] = 0;
+		
 
 
 	}
@@ -90,8 +83,14 @@ int main(int argc, char *argv[]){
 	int v1, v2;
 	double p;
 
+
 	while(!scanf("n=%d", &n)){ getchar();}
 	n = int(n);
+	std::vector<No> vertices;
+	for (int i = 0; i < n; i++)
+	{
+		vertices.push_back(No(i));
+	}
 
 	while(getchar() != ':'){}
 	getchar();
@@ -102,6 +101,7 @@ int main(int argc, char *argv[]){
 	//recebe a aresta (v1, v2) com peso p
 	while(scanf("%d %d %lf", &v1, &v2, &p) != EOF){
 		//armazena no grafo
+
 		g.adicionarAresta(v1-1, v2-1, p);
 	}
 
