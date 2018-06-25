@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <list>
 #include <iostream>
 #include <vector>
 #include <limits>
@@ -12,10 +13,12 @@ using namespace std;
 
 class No
 {
+public:
+
 	int vertice;
 	double chave;
 	bool atingido;
-public:
+
 
 	No(int v)
 	{
@@ -45,7 +48,7 @@ public:
 	}
 
 	// sobrescrita do operador "<"
-	bool operator < (const No no2) const
+	bool operator < (const No& no2) const
 	{
 		return (chave < no2.chave);
 	}
@@ -53,9 +56,10 @@ public:
 
 class Aresta
 {
+public:
 	No no1, no2;
 	double peso;
-public:
+
 
 	Aresta(No no1, No no2, double peso)
 	{
@@ -73,11 +77,12 @@ public:
 
 class heap
 {
+public:
 	std::vector<No> H;
 	int ultimo;
 	int heap_size;
 	static const heap null;
-public:
+
 	heap()
 	{	
 		H.push_back(0);
@@ -101,8 +106,8 @@ public:
 
 	void descer(int i)
 	{
-		int e = this.esquerda(i);
-		int d = this.direita(i);
+		int e = this->esquerda(i);
+		int d = this->direita(i);
 		int menor;
 		if(e <= this->ultimo and this->H[e].obterChave() < this->H[i].obterChave()){
 			menor = e;
@@ -125,7 +130,7 @@ public:
 	{
 
 		if (this->ultimo == 0){
-			return heap::null;
+			return NULL;
 		}
 		No minimo = this->H[1];
 		this->H[1] = this->H[this->ultimo];
@@ -151,7 +156,7 @@ public:
 		{
 			i++;
 		}
-		if !(k > this->H[i].obterChave()){
+		if (k <= this->H[i].obterChave()){
 			this->H[i].setChave(k);
 
 			while(i >= 2 and H[pai(i)].obterChave() > H[i].obterChave()){
