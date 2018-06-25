@@ -166,6 +166,11 @@ public:
 		}
 		return 0;
 	}
+
+	bool heapVazia()
+	{
+		if
+	}
 };
 
 
@@ -222,9 +227,9 @@ public:
 			hp.incluir(adj[0][i], obterPeso(0, adj[0][i].obterVertice()));
 			pertenceHeap[adj[0][i].obterVertice()] = true;
 		}
-		while(hp != [0]){
+		while(hp.ultimo != 0){
 			no = hp.removerMinimo();
-			vertices[no.vertice] = no.obterChave(); //distancia[u] = u.chave
+			vertices[no.obterVertice()] = no.obterChave(); //distancia[u] = u.chave
 			for (int i = 0; i < this->adj[no.obterVertice()].size(); i++) //Para cada v E N(u)
 			{
 				if(!adj[no.obterVertice()][i].atingido){ //Se não atingido
@@ -233,7 +238,8 @@ public:
 					pertenceHeap[adj[no.obterVertice()][i].obterVertice()] = true;
 				}else{
 
-					double pesoOutroCaminho = vertices[no.obterVertice()] + obterPeso(no.obterVertice(), adj[no.obterVertice()][i].obterVertice());
+					double pesoOutroCaminho = vertices[no.obterVertice()] +
+					 obterPeso(no.obterVertice(), adj[no.obterVertice()][i].obterVertice());
 					if (pertenceHeap[adj[no.obterVertice()][i].obterVertice()] and 
 						pesoOutroCaminho < hp.pegaPeso(adj[no.obterVertice()][i].obterVertice())){
 							hp.aumentarPrioridade(adj[no.obterVertice()][i], pesoOutroCaminho);
