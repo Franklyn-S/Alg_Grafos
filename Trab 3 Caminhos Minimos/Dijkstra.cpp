@@ -19,9 +19,9 @@ public:
 
 	No(int v)
 	{
-		vertice = v;
-		chave = std::numeric_limits<double>::max();//distancia
-		atingido = false;
+		this->vertice = v;
+		this->chave = std::numeric_limits<double>::max();//distancia
+		this->atingido = false;
 	}
 
 	void atingir()
@@ -45,9 +45,9 @@ public:
 	}
 
 	// sobrescrita do operador "<"
-	bool operator < (const No& no2) const
+	bool operator < (const No no2) const
 	{
-		return (chave < No2.chave);
+		return (chave < no2.chave);
 	}
 };
 
@@ -74,32 +74,35 @@ public:
 class heap
 {
 	std::vector<No> H;
-	double ultimo;
+	int ultimo;
+	int heap_size;
+	static const heap null;
 public:
 	heap()
 	{	
 		H.push_back(0);
 		ultimo = 0;
+		heap_size = -1;
 	}
 
-	void pai(int i){
+	int pai(int i){
 		return (i >> 1);
 	}
 
-	void esquerda(int i)
+	int esquerda(int i)
 	{
 		return (i << 1);
 	}
 
-	void direita(int i)
+	int direita(int i)
 	{
 		return (i << 1) + 1;
 	}
 
 	void descer(int i)
 	{
-		int e = i.esquerda();
-		int d = i.direita();
+		int e = this.esquerda(i);
+		int d = this.direita(i);
 		int menor;
 		if(e <= this->ultimo and this->H[e].obterChave() < this->H[i].obterChave()){
 			menor = e;
@@ -120,21 +123,24 @@ public:
 
 	No removerMinimo()
 	{
+
 		if (this->ultimo == 0){
-			return NULL;
+			return heap::null;
 		}
 		No minimo = this->H[1];
 		this->H[1] = this->H[this->ultimo];
 		this->ultimo -= 1;
+		this->heap_size -= 1;
 		if(this->ultimo >= 1){
 			this->descer(1);
 		}
-		this->H.pop_back(this->ultimo + 1);
+		this->H.erase(this->ultimo + 1);
 		return minimo;
 	}
 
 	void incluir(No v, double k){
 		this->ultimo ++;
+		this->heap_size ++;
 		this->H.push_back(v);
 		this->aumentarPrioridade(v, k);
 	}
@@ -155,7 +161,6 @@ public:
 				i = pai(i);
 			}
 		}
-
 	}
 	double pegaPeso(int vertice){
 		for (int i = 0; i < H.size(); i++)
@@ -169,7 +174,10 @@ public:
 
 	bool heapVazia()
 	{
-		if
+		if(heap_size == -1){
+			return true;
+		}
+		return false;
 	}
 };
 
@@ -197,7 +205,7 @@ public:
 	{
 		for (int i = 0; i < arestas.size(); i++)
 		{
-			if(arestas[i].no1.vertice == v1 and arestas[i].no2.vertice == n2){
+			if(arestas[i].no1.obterVertice() == v1 and arestas[i].no2.obterVertice() == v2){
 				return arestas[i].obterPeso();
 			}
 		}
@@ -206,10 +214,10 @@ public:
 	void adicionarAresta(int v1, int v2, double peso)
 	{	
 		No n1 = No(v1);
-		No n2 = No(v2)
+		No n2 = No(v2);
 		Aresta aresta(n1, n2, peso);
 		arestas.push_back(aresta);
-		adj[v1].push_back(n2);
+		adj[v1].push_back(v2);
 	}
 
 	//Implementar as funções do Dijkstra aqui
@@ -219,15 +227,16 @@ public:
 		vertices[0].setChave(0.000);
 		heap hp = heap();
 		//percorrer vizinhos
-		No no; //auxiliar
+
+
+		No no = No(0);
 		for(int i = 0; i < adj[0].size(); i++){
 			
 			adj[0][i].atingir();
-			adj[0][i].
 			hp.incluir(adj[0][i], obterPeso(0, adj[0][i].obterVertice()));
 			pertenceHeap[adj[0][i].obterVertice()] = true;
 		}
-		while(hp.ultimo != 0){
+		while(!heapVazia()){
 			no = hp.removerMinimo();
 			vertices[no.obterVertice()] = no.obterChave(); //distancia[u] = u.chave
 			for (int i = 0; i < this->adj[no.obterVertice()].size(); i++) //Para cada v E N(u)
